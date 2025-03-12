@@ -1,3 +1,5 @@
+using Lab1.Shapes;
+
 namespace Lab1
 {
     public partial class Form1 : Form
