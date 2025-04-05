@@ -1,4 +1,5 @@
 using Lab1.Shapes;
+using System.Collections.Frozen;
 
 namespace Lab1
 {
@@ -10,7 +11,9 @@ namespace Lab1
         }
 
         ShapeList _shapeList = new ShapeList();
-        static int _randomPenWidth = 10;
+        ShapeList _shapeListHistory = new ShapeList();
+        Pen currentPen = new Pen(Color.Black);
+        Brush currentBrush; 
 
         private Shape DetectShape()
         {
@@ -47,7 +50,7 @@ namespace Lab1
             Graphics figure = pctbMain.CreateGraphics();
             for (int i = 0; i < _shapeList.Count; i++)
             {
-                _shapeList[i].Draw(figure, _shapeList[i].pen);
+                _shapeList[i].Draw(figure, _shapeList[i].pen, _shapeList[i].brush);
             }
         }
         private void btnDraw_Click(object sender, EventArgs e)
@@ -56,7 +59,10 @@ namespace Lab1
             Shape shape = DetectShape();
             if (shape != null)
             {
+                shape.pen = new Pen(currentPen.Color, currentPen.Width);
+                shape.brush = currentBrush;
                 _shapeList.Add(shape);
+                _shapeListHistory.Add(shape);
                 pctbMain.Refresh();
                 paintList();
             }
@@ -68,9 +74,9 @@ namespace Lab1
             if (_shapeList.Count > 0)
             {
                 _shapeList.RemoveAt(_shapeList.Count - 1);
+                pctbMain.Refresh();
+                paintList();
             }
-            pctbMain.Refresh();
-            paintList();
         }
 
         private void pctbMain_Paint(object sender, PaintEventArgs e)
@@ -78,5 +84,44 @@ namespace Lab1
 
         }
 
+        private void trbrThickness_Scroll(object sender, EventArgs e)
+        {
+            currentPen.Width = trbrThickness.Value;
+        }
+
+        private void btnRedo_Click(object sender, EventArgs e)
+        {
+            
+            if (_shapeListHistory.Count > _shapeList.Count)
+            {
+                _shapeList.Add(_shapeListHistory[_shapeList.Count]);
+                pctbMain.Refresh();
+                paintList();
+            }
+        }
+
+        private void pbFillColor_Click(object sender, EventArgs e)
+        {
+
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                currentBrush = new SolidBrush(colorDialog1.Color);
+                pbFillColor.BackColor = colorDialog1.Color;
+            }
+        }
+
+        private void pbStroke_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                currentPen.Color = colorDialog1.Color;
+                pbStrokeColor.BackColor = colorDialog1.Color;
+            }
+        }
+
+        private void lblColorFill_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

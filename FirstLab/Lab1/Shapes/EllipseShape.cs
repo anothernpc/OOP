@@ -14,9 +14,10 @@ public class EllipseShape : Shape
         _height = rand.Next(0, _randomTopBorder);
     }
 
-    public override void Draw(Graphics shape, Pen pen)
+    public override void Draw(Graphics shape, Pen pen, Brush brush)
     {
         shape.DrawEllipse(pen, _x, _y, _width, _height);
+        shape.FillEllipse(brush, _x, _y, _width, _height);  
     }
     
 }

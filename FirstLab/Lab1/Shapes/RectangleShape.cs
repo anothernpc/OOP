@@ -15,8 +15,10 @@ public class RectangleShape : Shape
         //MessageBox.Show($"{_x.ToString()}, {_y.ToString()}, {_width.ToString()}, {_height.ToString()}");
     }
 
-    public override void Draw(Graphics shape, Pen pen)
+    public override void Draw(Graphics shape, Pen pen, Brush brush)
     {
         shape.DrawRectangle(pen, _x, _y, _width, _height);
+        shape.FillRectangle(brush, _x, _y, _width, _height);
+
     }
 }

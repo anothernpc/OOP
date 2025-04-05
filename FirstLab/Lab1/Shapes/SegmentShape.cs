@@ -14,7 +14,7 @@ public class SegmentShape : Shape
         _y2 = rand.Next(0, _randomTopBorder);
     }
     
-    public override void Draw(Graphics shape, Pen pen)
+    public override void Draw(Graphics shape, Pen pen, Brush brush)
     {
         shape.DrawLine(pen, _x1, _y1, _x2, _y2);
     }

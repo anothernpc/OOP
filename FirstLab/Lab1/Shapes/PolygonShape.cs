@@ -28,8 +28,9 @@ public class PolygonShape : Shape
         }
     }
     
-    public override void Draw(Graphics shape, Pen pen)
+    public override void Draw(Graphics shape, Pen pen, Brush brush)
     {
         shape.DrawPolygon(pen, _points);
+        shape.FillPolygon(brush, _points);
     }
 }
