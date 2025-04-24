@@ -3,19 +3,20 @@ namespace Lab1.Shapes;
 public class SegmentShape : Shape
 {
     private int _x1, _y1, _x2, _y2;
-    static int _randomTopBorder = 1000;
 
     public SegmentShape() 
     {
-        var rand = new Random();
-        _x1 = rand.Next(0, _randomTopBorder);
-        _y1 = rand.Next(0, _randomTopBorder);
-        _x2 = rand.Next(0, _randomTopBorder);
-        _y2 = rand.Next(0, _randomTopBorder);
     }
     
-    public override void Draw(Graphics shape, Pen pen, Brush brush)
+    public override void Draw(Graphics shape, Pen pen, Brush brush, Point startPoint, Point currentPoint, Point[] points)
     {
-        shape.DrawLine(pen, _x1, _y1, _x2, _y2);
+        _x1 = startPoint.X;
+        _y1 = startPoint.Y;
+        _x2 = currentPoint.X;
+        _y2 = currentPoint.Y;
+        if (pen != null)
+        {
+            shape.DrawLine(pen, _x1, _y1, _x2, _y2);
+        }
     }
 }

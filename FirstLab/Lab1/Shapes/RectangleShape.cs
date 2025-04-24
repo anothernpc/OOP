@@ -2,23 +2,29 @@ namespace Lab1.Shapes;
 
 public class RectangleShape : Shape
 {
-    private int _x, _y, _width, _height;
-    static int _randomTopBorder = 1000;
 
     public RectangleShape()
     {
-        var rand = new Random();
-        _x = rand.Next(0, _randomTopBorder);
-        _y = rand.Next(0, _randomTopBorder);
-        _width = rand.Next(0, _randomTopBorder);
-        _height = rand.Next(0, _randomTopBorder);
-        //MessageBox.Show($"{_x.ToString()}, {_y.ToString()}, {_width.ToString()}, {_height.ToString()}");
     }
 
-    public override void Draw(Graphics shape, Pen pen, Brush brush)
+    public override void Draw(Graphics shape, Pen pen, Brush brush, Point startPoint, Point currentPoint, Point[] points)
     {
-        shape.DrawRectangle(pen, _x, _y, _width, _height);
-        shape.FillRectangle(brush, _x, _y, _width, _height);
 
+        int x1 = Math.Min(startPoint.X, currentPoint.X);
+        int y1 = Math.Min(startPoint.Y, currentPoint.Y);
+        int x2 = Math.Max(startPoint.X, currentPoint.X);
+        int y2 = Math.Max(startPoint.Y, currentPoint.Y);
+
+        int width = x2 - x1;
+        int height = y2 - y1;
+
+        if (pen != null)
+        {
+            shape.DrawRectangle(pen, x1, y1, width, height);
+        }
+        if (brush != null)
+        {
+            shape.FillRectangle(brush, x1, y1, width, height);
+        }
     }
 }
