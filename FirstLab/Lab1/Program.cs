@@ -8,13 +8,7 @@ namespace Lab1
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
-        /// 
-        public static void SaveListToJsonFile(List<Shape> list, string filePath)
-        {
-            var options = new JsonSerializerOptions { WriteIndented = true }; // Makes JSON more readable
-            string json = JsonSerializer.Serialize(list, options);
-            File.WriteAllText(filePath, json);
-        }
+        ///
 
 
 

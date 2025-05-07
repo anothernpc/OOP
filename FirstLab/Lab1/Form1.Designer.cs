@@ -50,6 +50,8 @@ namespace Lab1
             openToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
             panelMain = new Panel();
+            saveFileDialog = new SaveFileDialog();
+            openFileDialog = new OpenFileDialog();
             panelLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbStrokeColor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbFillColor).BeginInit();
@@ -165,6 +167,7 @@ namespace Lab1
             cbSelectShape.Name = "cbSelectShape";
             cbSelectShape.Size = new Size(313, 40);
             cbSelectShape.TabIndex = 2;
+            cbSelectShape.SelectedIndexChanged += cbSelectShape_SelectedIndexChanged;
             // 
             // btnUndo
             // 
@@ -196,7 +199,7 @@ namespace Lab1
             pctbMain.TabIndex = 1;
             pctbMain.TabStop = false;
             pctbMain.Click += pctbMain_Click;
-            pctbMain.Paint += pctbMain_Paint_1;
+            pctbMain.Paint += pctbMain_Paint;
             pctbMain.MouseDown += pctbMain_MouseDown;
             pctbMain.MouseMove += pctbMain_MouseMove;
             pctbMain.MouseUp += pctbMain_MouseUp;
@@ -222,7 +225,7 @@ namespace Lab1
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            openToolStripMenuItem.Size = new Size(298, 44);
+            openToolStripMenuItem.Size = new Size(359, 44);
             openToolStripMenuItem.Text = "Open ";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
@@ -230,7 +233,7 @@ namespace Lab1
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(298, 44);
+            saveToolStripMenuItem.Size = new Size(359, 44);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
@@ -242,6 +245,10 @@ namespace Lab1
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(1484, 894);
             panelMain.TabIndex = 13;
+            // 
+            // openFileDialog
+            // 
+            openFileDialog.FileName = "openFileDialog";
             // 
             // Form1
             // 
@@ -301,5 +308,7 @@ namespace Lab1
         private Label lblChooseShape;
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
+        private SaveFileDialog saveFileDialog;
+        private OpenFileDialog openFileDialog;
     }
 }
