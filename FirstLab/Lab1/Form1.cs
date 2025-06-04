@@ -61,6 +61,10 @@ namespace Lab1
             if (currentShape != null)
             {
                 shapeListsManager.onPaintEvent(currentShape, e.Graphics, currentPen, currentBrush);
+            } else
+            {
+                Graphics figure = pctbMain.CreateGraphics();
+                shapeListsManager.paintShapeList(e.Graphics);
             }
         }
 
@@ -104,11 +108,11 @@ namespace Lab1
         {
             shapeListsManager.openAction(openFileDialog, shapeListsManager, shapes);
             pctbMain.Invalidate();
-            Graphics figure = pctbMain.CreateGraphics();
-            shapeListsManager.paintShapeList(figure);
-            currentShape = shapes[shapeListsManager._shapeList.Count - 1];
-            currentBrush = currentShape.brush;
-            currentPen = currentShape.pen;
+            //Graphics figure = pctbMain.CreateGraphics();
+            //shapeListsManager.paintShapeList(figure);
+            //currentShape = shapeListsManager._shapeList[shapeListsManager._shapeList.Count - 1];
+            //currentBrush = currentShape.brush;
+            //currentPen = currentShape.pen;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

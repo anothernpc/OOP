@@ -13,6 +13,10 @@ namespace TrapeziumShape
             graphics.FillPolygon(brush, trapeziumPoints);
             graphics.DrawPolygon(pen, trapeziumPoints);
         }
+        public TrapeziumShape()
+        {
+            shapeType = "Trapezium";
+        }
 
         private PointF[] CalculateTrapeziumPoints(Point start, Point end)
         {

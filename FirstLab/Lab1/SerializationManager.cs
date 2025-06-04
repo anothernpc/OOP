@@ -39,7 +39,7 @@ namespace Lab1
                             if (detectedShape != null)
                             {
                                 Shape newShape = Activator.CreateInstance(detectedShape.GetType()) as Shape;
-
+                                
                                 if (newShape != null)
                                 {
                                     newShape.pen = shape.pen;
