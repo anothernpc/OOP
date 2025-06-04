@@ -1,3 +1,4 @@
+using BaseShape;
 namespace Lab1.Shapes;
 
 public class RectangleShape : Shape
@@ -5,6 +6,7 @@ public class RectangleShape : Shape
 
     public RectangleShape()
     {
+        shapeType = "Rectangle";
     }
 
     public override void Draw(Graphics shape, Pen pen, Brush brush, Point startPoint, Point currentPoint, Point[] points)

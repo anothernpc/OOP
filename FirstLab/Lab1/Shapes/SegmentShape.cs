@@ -1,11 +1,13 @@
+using BaseShape;
 namespace Lab1.Shapes;
 
 public class SegmentShape : Shape
 {
-    private int _x1, _y1, _x2, _y2;
+    public int _x1, _y1, _x2, _y2;
 
     public SegmentShape() 
     {
+        shapeType = "Segment";
     }
     
     public override void Draw(Graphics shape, Pen pen, Brush brush, Point startPoint, Point currentPoint, Point[] points)

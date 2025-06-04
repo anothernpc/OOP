@@ -1,4 +1,5 @@
-﻿using Lab1.Shapes;
+﻿using BaseShape;
+using Lab1.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

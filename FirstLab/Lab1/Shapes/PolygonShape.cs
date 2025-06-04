@@ -1,11 +1,14 @@
+using BaseShape;
+
 namespace Lab1.Shapes;
 
 public class PolygonShape : Shape
 {
-    private Point[] _points = [];
+    public Point[] _points = [];
 
     public PolygonShape()
     {
+        shapeType = "Polygon";
     }
     
     public override void Draw(Graphics shape, Pen pen, Brush brush, Point startPoint, Point currentPoint, Point[] points)

@@ -1,6 +1,8 @@
-﻿using Lab1.Shapes;
+﻿using BaseShape;
+using Lab1.Shapes;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -10,7 +12,8 @@ namespace Lab1
 {
     class SerializationManager
     {
-        public List<Shape> openAction(OpenFileDialog openFileDialog)
+
+        public List<Shape>? openAction(OpenFileDialog openFileDialog, ShapeList shapeList, List<Shape> shapes)
         {
 
             openFileDialog.Filter = "JSON files (*.json)|*.json";
@@ -23,7 +26,41 @@ namespace Lab1
                 try
                 {
                     string json = File.ReadAllText(filePath);
-                    return JsonSerializer.Deserialize<List<Shape>>(json);
+                    var options = new JsonSerializerOptions { IncludeFields = true };
+                    List<Shape>? deserializedList = JsonSerializer.Deserialize<List<Shape>>(json, options);
+                    List<Shape> newList = new List<Shape>();
+                    if (deserializedList != null)
+                    {
+                        foreach (Shape shape in deserializedList)
+                        {
+                            shape?.RestoreGraphics();
+                            Shape detectedShape = shapeList.DetectShape(shapes, shape.shapeType);
+                          
+                            if (detectedShape != null)
+                            {
+                                Shape newShape = Activator.CreateInstance(detectedShape.GetType()) as Shape;
+
+                                if (newShape != null)
+                                {
+                                    newShape.pen = shape.pen;
+                                    newShape.brush = shape.brush;
+                                    newShape.startPoint = shape.startPoint;
+                                    newShape.currentPoint = shape.currentPoint;
+                                    newShape.points = shape.points;
+
+                                    newShape.brushColor = shape.brushColor;
+                                    newShape.penColor = shape.penColor;
+                                    newShape.shapeType = shape.shapeType;
+                                    newShape.strokeThickness = shape.strokeThickness;
+                                }
+                                newList.Add(newShape);
+
+                            }
+
+                            
+                        }
+                    }
+                    return newList;
                 }
                 catch (Exception ex)
                 {
@@ -31,7 +68,7 @@ namespace Lab1
                 }
             }
 
-            return null;
+            return null ;
         }
 
 
@@ -45,7 +82,13 @@ namespace Lab1
                 string filePath = saveFileDialog.FileName;
 
                 
-                var options = new JsonSerializerOptions { WriteIndented = true, IncludeFields = true }; 
+                var options = new JsonSerializerOptions { WriteIndented = true, IgnoreReadOnlyProperties = true, IncludeFields = true }; 
+                foreach (Shape shape in _shapeList)
+                {
+                    shape.penColor  = ColorTranslator.ToHtml(shape.pen.Color);
+                    shape.brushColor = ColorTranslator.ToHtml((shape.brush as SolidBrush).Color);
+                    shape.strokeThickness = shape.pen.Width;
+                }
                 string json = JsonSerializer.Serialize(_shapeList, options);
 
                 File.WriteAllText(filePath, json);

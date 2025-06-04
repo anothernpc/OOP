@@ -3,6 +3,7 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.Json;
+using BaseShape;
 using System.Windows.Forms;
 
 namespace Lab1
@@ -10,8 +11,12 @@ namespace Lab1
     public partial class Form1 : Form
     {
         string shapeFolderPath = @"..\..\..\Shapes";
+        string dllPath = @"StarShapeLibrary.dll";
         UndoRedoManager undoRedoManager = new UndoRedoManager();
         ShapeList shapeListsManager = new ShapeList();
+        public List<Shape> shapes = new List<Shape>();
+        ShapeLoadingManager shapeLoadingManager = new ShapeLoadingManager();
+        List<string> shapeNames = new List<string>();
         Pen currentPen = new Pen(Color.Black);
         Brush currentBrush;
         Shape currentShape;
@@ -20,6 +25,7 @@ namespace Lab1
         public Form1()
         {
             InitializeComponent();
+            shapeNames.Clear();
             var shapeFiles = Directory.GetFiles(shapeFolderPath, "*.cs")
                                   .Select(file => Path.GetFileNameWithoutExtension(file))
                                   .Where(name => name.EndsWith("Shape") && (name != "Shape"))
@@ -28,13 +34,14 @@ namespace Lab1
             foreach (var shapeFile in shapeFiles)
             {
                 //проверки на валидный класс не будет мне оч впадлу
-                cbSelectShape.Items.Add(shapeFile);
+                shapeNames.Add(shapeFile);
             }
-        }
 
-        private void btnDraw_Click(object sender, EventArgs e)
-        {
-            //shapeListsManager.createShape(figure, currentPen, currentBrush, currentShape);
+            shapeNames.AddRange(shapeLoadingManager.GetShapesFromDLL(dllPath));
+            shapes.AddRange(shapeLoadingManager.LoadShapesFromDLL(dllPath));
+            shapes.AddRange(shapeLoadingManager.LoadShapesFromFiles(shapeFolderPath));
+            cbSelectShape.Items.Clear();
+            cbSelectShape.Items.AddRange(shapeNames.ToArray());
         }
 
 
@@ -95,10 +102,13 @@ namespace Lab1
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            shapeListsManager.openAction(openFileDialog);
-            pctbMain.Refresh();
+            shapeListsManager.openAction(openFileDialog, shapeListsManager, shapes);
+            pctbMain.Invalidate();
             Graphics figure = pctbMain.CreateGraphics();
             shapeListsManager.paintShapeList(figure);
+            currentShape = shapes[shapeListsManager._shapeList.Count - 1];
+            currentBrush = currentShape.brush;
+            currentPen = currentShape.pen;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -132,7 +142,7 @@ namespace Lab1
             if (e.Button == MouseButtons.Right && shapeListsManager.universalCheck(false, true, cbSelectShape.SelectedItem))
             {
                 Graphics figure = pctbMain.CreateGraphics();
-                Shape shape = shapeListsManager.DetectShape(cbSelectShape.SelectedItem.ToString());
+                Shape shape = shapeListsManager.DetectShape(shapes, cbSelectShape.SelectedItem.ToString());
                 if (shapeListsManager.savePreview(figure, shape, currentPen, currentBrush))
                 {
                     pctbMain.Refresh();
@@ -144,7 +154,18 @@ namespace Lab1
 
         private void cbSelectShape_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentShape = shapeListsManager.DetectShape(cbSelectShape.SelectedItem.ToString());
+            currentShape = shapeListsManager.DetectShape(shapes, cbSelectShape.SelectedItem.ToString());
+        }
+
+        private void pluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            shapeNames.AddRange(shapeLoadingManager.openAction(openFileDialog, shapes));
+            cbSelectShape.Items.Clear();
+            cbSelectShape.Items.AddRange(shapeNames.ToArray());
+            //currentShape = shapes[shapeListsManager._shapeList.Count - 1];
+            //currentBrush = currentShape.brush;
+            //currentPen = currentShape.pen;
+
         }
     }
 }

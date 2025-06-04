@@ -42,7 +42,6 @@ namespace Lab1
             btnRedo = new Button();
             cbSelectShape = new ComboBox();
             btnUndo = new Button();
-            btnDraw = new Button();
             pctbMain = new PictureBox();
             colorDialog1 = new ColorDialog();
             menuStrip1 = new MenuStrip();
@@ -52,6 +51,7 @@ namespace Lab1
             panelMain = new Panel();
             saveFileDialog = new SaveFileDialog();
             openFileDialog = new OpenFileDialog();
+            pluginsToolStripMenuItem = new ToolStripMenuItem();
             panelLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbStrokeColor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pbFillColor).BeginInit();
@@ -73,7 +73,6 @@ namespace Lab1
             panelLeft.Controls.Add(btnRedo);
             panelLeft.Controls.Add(cbSelectShape);
             panelLeft.Controls.Add(btnUndo);
-            panelLeft.Controls.Add(btnDraw);
             panelLeft.Dock = DockStyle.Left;
             panelLeft.Location = new Point(0, 0);
             panelLeft.Name = "panelLeft";
@@ -179,16 +178,6 @@ namespace Lab1
             btnUndo.UseVisualStyleBackColor = true;
             btnUndo.Click += btnUndo_Click;
             // 
-            // btnDraw
-            // 
-            btnDraw.Location = new Point(26, 586);
-            btnDraw.Name = "btnDraw";
-            btnDraw.Size = new Size(313, 76);
-            btnDraw.TabIndex = 0;
-            btnDraw.Text = "Draw";
-            btnDraw.UseVisualStyleBackColor = true;
-            btnDraw.Click += btnDraw_Click;
-            // 
             // pctbMain
             // 
             pctbMain.BackColor = Color.White;
@@ -210,15 +199,15 @@ namespace Lab1
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1484, 40);
+            menuStrip1.Size = new Size(1484, 42);
             menuStrip1.TabIndex = 12;
             menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, pluginsToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(71, 36);
+            fileToolStripMenuItem.Size = new Size(71, 38);
             fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
@@ -250,6 +239,13 @@ namespace Lab1
             // 
             openFileDialog.FileName = "openFileDialog";
             // 
+            // pluginsToolStripMenuItem
+            // 
+            pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
+            pluginsToolStripMenuItem.Size = new Size(359, 44);
+            pluginsToolStripMenuItem.Text = "Plugins";
+            pluginsToolStripMenuItem.Click += pluginsToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
@@ -263,7 +259,7 @@ namespace Lab1
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Form1";
-            Text = "Form1";
+            Text = "Paint.exe";
             panelLeft.ResumeLayout(false);
             panelLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbStrokeColor).EndInit();
@@ -292,7 +288,6 @@ namespace Lab1
         private Panel panelLeft;
         private ComboBox cbSelectShape;
         private Button btnUndo;
-        private Button btnDraw;
         private PictureBox pctbMain;
         private Button btnRedo;
         private TrackBar trbrThickness;
@@ -310,5 +305,6 @@ namespace Lab1
         private ToolStripMenuItem saveToolStripMenuItem;
         private SaveFileDialog saveFileDialog;
         private OpenFileDialog openFileDialog;
+        private ToolStripMenuItem pluginsToolStripMenuItem;
     }
 }

@@ -1,3 +1,5 @@
+using BaseShape;
+
 namespace Lab1.Shapes;
 
 public class EllipseShape : Shape
@@ -5,6 +7,7 @@ public class EllipseShape : Shape
     
     public EllipseShape()
     {
+        shapeType = "Ellipse";
     }
 
     public override void Draw(Graphics shape, Pen pen, Brush brush, Point startPoint, Point currentPoint, Point[] points)

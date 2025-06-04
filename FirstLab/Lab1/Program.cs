@@ -1,6 +1,7 @@
 using Lab1.Shapes;
 using System.Text.Json;
 
+
 namespace Lab1
 {
     internal static class Program

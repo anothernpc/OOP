@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BaseShape;
 
 namespace Lab1
 {
@@ -13,33 +14,29 @@ namespace Lab1
         public List<Shape> _shapeList = new List<Shape>();
         public List<Shape> _shapeListHistory = new List<Shape>();
         SerializationManager serializerManager = new SerializationManager();
+        ShapeLoadingManager shapeLoadingManager = new ShapeLoadingManager();
         Point? startPoint = null;
         Point? currentPoint = null;
         Point[] pointsArray = [];
 
-        public Shape DetectShape(string className)
+        public Shape DetectShape(List<Shape> shapes, string className)
         {
-            if (className != null)
-            {
-                Type type = Type.GetType($"Lab1.Shapes.{className}Shape");
-                if (type != null)
-                {
-                    object instance = Activator.CreateInstance(type);
-                    return instance as Shape;
-                }
-                else
-                {
-                    return null;
-                }
-
-            }
-            else
+            if (string.IsNullOrEmpty(className))
             {
                 MessageBox.Show("No figure selected", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
-
             }
+            Shape foundShape = shapes.FirstOrDefault(shape => (shape.GetType().Name == className+"Shape") || (shape.GetType().Name == className) );
+
+            if (foundShape != null)
+            {
+                return (Shape)Activator.CreateInstance(foundShape.GetType()); 
+            }
+
+            MessageBox.Show($"Figure {className} not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return null;
         }
+
 
         public void paintShapeList(Graphics figure)
         {
@@ -145,12 +142,19 @@ namespace Lab1
             return isOkay;
         }
 
-        public void openAction(OpenFileDialog openFileDialog)
+        public void openAction(OpenFileDialog openFileDialog, ShapeList shapeList, List<Shape> shapes)
         {
             _shapeList.Clear();
-            _shapeList.AddRange(serializerManager.openAction(openFileDialog));
             _shapeListHistory.Clear();
-            _shapeListHistory.AddRange(_shapeList);
+            try
+            {
+                _shapeList.AddRange(serializerManager.openAction(openFileDialog, shapeList, shapes));
+                _shapeListHistory.AddRange(_shapeList);
+            }
+            catch (Exception ex) { 
+            
+            }
+            
         }
 
         public void saveAction(SaveFileDialog saveFileDialog)
